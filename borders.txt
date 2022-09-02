@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return MyScreen();
+  }
+}
+
+class MyScreen extends StatefulWidget {
+  const MyScreen({Key? key}) : super(key: key);
+  @override
+  State<MyScreen> createState() => _MyScreenState();
+}
+
+class _MyScreenState extends State<MyScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.brown),
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text("MyFirst App"),
+          ),
+          body: const Center(
+            child: TextField(
+              keyboardType: TextInputType.text,
+              maxLength: 50,
+              //obscureText: true,
+              decoration: InputDecoration(border: OutlineInputBorder()),
+            ),
+          )),
+    );
+  }
+}
