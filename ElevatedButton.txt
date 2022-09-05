@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(App());
+}
+
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blueGrey,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  String tempTxt = "";
+  String text = "";
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Button", style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),),
+        centerTitle: true,
+      ),
+
+      body: Container(
+        alignment: Alignment.center,
+        child: ListView(
+          children: [
+
+            SizedBox(height: height * 0.04,),
+
+            Container(
+              margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
+              child: Text('Hello! ${text}', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30.0),),
+            ),
+
+            SizedBox(height: height * 0.03,),
+
+            Container(
+              margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    tempTxt = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  labelText: "Enter Your Name",
+                  labelStyle: TextStyle(color: Colors.grey, fontSize: 15.0),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+
+            SizedBox(height: height * 0.04,),
+
+            Container(
+              margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
+              child: ElevatedButton(
+                onPressed: () {
+                  debugPrint('button was clicked');
+                  setState(() {
+                    text = tempTxt;
+                  });
+                },
+                child: Text(
+                  "Submit", style: TextStyle(color: Colors.white, fontSize: 15.0,),
+                ),
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
