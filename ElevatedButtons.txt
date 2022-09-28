@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(Home());
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.lightBlue
+          ),
+        ),
+      ),
+      home: Page(),
+    );
+  }
+}
+
+class Page extends StatefulWidget {
+  const Page({Key? key}) : super(key: key);
+
+  @override
+  State<Page> createState() => _PageState();
+}
+
+class _PageState extends State<Page> {
+  @override
+  Widget build(BuildContext context) {
+
+    final height = MediaQuery.of(context).size.height;
+
+    return Material(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Day 6"),
+          ),
+
+          body: Center(
+              child: Column(
+                children: [
+
+                  SizedBox(height: height * 0.05,),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      debugPrint("Elevated Button -> Clicked");
+                    },
+                    onLongPress: () {
+                      debugPrint('Elevated Button -> Long Press');
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple,
+                      foregroundColor: Colors.white,
+                      elevation: 9,
+                      shadowColor: Colors.white,
+                    ),
+
+                    child: Text("Elevated Button", style: TextStyle(fontSize: 17)),
+                  ),
+
+                  SizedBox(height: height * 0.02,),
+
+
+                  SizedBox(height: height * 0.02,),
+
+                  TextButton(
+                    onPressed: () {
+                      debugPrint("Text Button -> Clicked");
+                    },
+                    child: Text("Text Button", style: TextStyle(fontSize: 17)),
+                  ),
+
+                  SizedBox(height: height * 0.02,),
+
+                  OutlinedButton(
+                    onPressed: () {
+                      debugPrint("Outline Button -> Clicked");
+                    },
+                    child: Text('Outline Button', style: TextStyle(fontSize: 17)),
+                  ),
+
+                  SizedBox(height: height * 0.02,),
+
+                  InkWell(
+                      onTap: () {
+                        debugPrint("InkWell -> clicked");
+                      },
+                      child: Container(
+                        child: Text(
+                          "Ink Well", style: TextStyle(fontSize: 17),
+                        ),
+                      )
+                  ),
+
+                ],
+              )
+          ),
+        )
+    );
+  }
+}
