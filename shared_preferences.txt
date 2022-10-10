@@ -1,0 +1,129 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() {
+  runApp(Home());
+}
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "App",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(primarySwatch: Colors.amber),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  TextEditingController _t1 = new TextEditingController();
+  var store = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:
+            Text("Shared Preferences", style: TextStyle(color: Colors.white)),
+      ),
+      drawer: Drawer(),
+      body: Container(
+        padding: EdgeInsets.all(32),
+        child: ListView(
+          children: [
+            TextField(
+              controller: _t1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _saveData();
+                    },
+                    child: Text("SAVE"),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          _getData();
+                        },
+                        child: Text("GET"))),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          _removeData();
+                        },
+                        child: Text("REMOVE"))),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _saveData() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', _t1.text);
+    setState(() {
+      store = "Saved ${_t1.text}";
+      snack_bar(store);
+    });
+  }
+
+  void _getData() async {
+    var prefs = await SharedPreferences.getInstance();
+    final String? getName = prefs.getString('name');
+    setState(() {
+      store = "Get Data : $getName";
+      snack_bar(store);
+    });
+  }
+
+  void _removeData() async {
+    var prefs = await SharedPreferences.getInstance();
+    await prefs.remove('name');
+    setState(() {
+      store = "Removed ${_t1.text}";
+      snack_bar(store);
+    });
+  }
+
+  void snack_bar(value) {
+    final snackBar = SnackBar(
+      content: Text(value),
+      backgroundColor: Colors.indigo,
+      elevation: 5,
+      margin: EdgeInsets.all(20.0),
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(milliseconds: 500),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+}
