@@ -1,0 +1,120 @@
+import 'package:flutter/material.dart';
+
+// Main Function Start
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var titleList = [
+    "PC",
+    "SmartPhone",
+    "Smart Watch",
+    "Electric",
+    "Robotics",
+    "Clothes",
+  ];
+
+  var descList = [
+    "Chooes your fav pc",
+    "Watch and select best smartphone",
+    "smartwatch for smart person like you",
+    "buy something which is used in daily life",
+    "watch the future of iot",
+    "select wearing as professionals",
+  ];
+
+  var imgList = [
+    "assets/image/pc.png",
+    "assets/image/smartphone.png",
+    "assets/image/smartwatch.png",
+    "assets/image/electric.png",
+    "assets/image/robot.png",
+    "assets/image/clothes.png",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    // MediaQuery to get Device Width
+    double width = MediaQuery.of(context).size.width * 0.6;
+    return Scaffold(
+      appBar: AppBar(
+        // App Bar
+        title: const Text(
+          "List ",
+          style: TextStyle(
+              color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      // Main List View With Builder
+      body: ListView.builder(
+        itemCount: imgList.length,
+        itemBuilder: (context, index) {
+          return GestureDetector(
+            onTap: () {
+              // This Will Call When User Click On ListView Item
+            },
+            // Card Which Holds Layout Of ListView Item
+            child: Card(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 75,
+                    height: 100,
+                    child: Image.asset(imgList[index]),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          titleList[index],
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: width,
+                          child: Text(
+                            descList[index],
+                            maxLines: 3,
+                            style: TextStyle(
+                                fontSize: 15, color: Colors.grey[500]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
