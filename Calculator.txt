@@ -1,0 +1,227 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.amber,
+      ),
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _t1 = TextEditingController();
+  final TextEditingController _t2 = TextEditingController();
+
+  String text1 = "";
+  String text2 = "";
+  String operation = "";
+  String ButtonValue = "";
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Calculator",
+          style: TextStyle(
+              color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: height * 0.06,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: _t1,
+                decoration: InputDecoration(
+                  labelText: "Enter Number",
+                  labelStyle: TextStyle(color: Colors.grey, fontSize: 15.0),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Container(
+              margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: _t2,
+                decoration: InputDecoration(
+                  labelText: "Enter Number",
+                  labelStyle: TextStyle(color: Colors.grey, fontSize: 15.0),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: width * 0.07, right: width * 0.07),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        debugPrint('button was clicked');
+                        setState(() {
+                          ButtonValue = "+";
+                          _addition();
+                        });
+                      },
+                      child: Text(
+                        "+",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: width * 0.07, right: width * 0.07),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        debugPrint('button was clicked');
+                        setState(() {
+                          ButtonValue = "-";
+                          _addition();
+                        });
+                      },
+                      child: Text(
+                        "-",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: width * 0.07, right: width * 0.07),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        debugPrint('button was clicked');
+                        setState(() {
+                          ButtonValue = "*";
+                          _addition();
+                        });
+                      },
+                      child: Text(
+                        "*",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: width * 0.07, right: width * 0.07),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        debugPrint('button was clicked');
+                        setState(() {
+                          ButtonValue = "/";
+                          _addition();
+                        });
+                      },
+                      child: Text(
+                        "/",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Center(
+              child: Container(
+                child: Text(
+                  operation,
+                  style: TextStyle(color: Colors.black, fontSize: 20.0),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _addition() {
+    var f1 = int.parse(_t1.text);
+    var f2 = int.parse(_t2.text);
+
+    if (ButtonValue == "+") {
+      int sum = f1 + f2;
+      var print = sum.toString();
+      operation = "Addition : $print";
+    }
+    if (ButtonValue == "-") {
+      int sub = f1 - f2;
+      var print = sub.toString();
+      operation = "Substration : $print";
+    }
+    if (ButtonValue == "*") {
+      int mul = f1 * f2;
+      var print = mul.toString();
+      operation = "Multiplication : $print";
+    }
+    if (ButtonValue == "/") {
+      int div = f1 ~/ f2;
+      var print = div.toString();
+      operation = "Divison : $print";
+    }
+  }
+}
