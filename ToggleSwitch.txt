@@ -1,0 +1,61 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+
+final _lightTheme = ThemeData(
+    brightness: Brightness.light,
+    textTheme: TextTheme(
+        bodyText1: TextStyle(
+      color: Colors.amber,
+    )));
+final _darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    textTheme: TextTheme(
+        bodyText1: TextStyle(
+      color: Colors.black,
+    )));
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  State<MyApp> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<MyApp> {
+  bool _switchValue = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: _switchValue ? _lightTheme : _darkTheme,
+      home: Scaffold(
+        backgroundColor:
+            _switchValue ? Colors.lightBlueAccent : Colors.greenAccent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Switch',
+              style: TextStyle(fontSize: 30),
+            ),
+            Switch(
+              value: _switchValue,
+              activeColor: Colors.amber,
+              activeTrackColor: Colors.red,
+              inactiveTrackColor: Colors.amber,
+              inactiveThumbColor: Colors.red,
+              onChanged: (newValue) {
+                setState(() {
+                  _switchValue = newValue;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
