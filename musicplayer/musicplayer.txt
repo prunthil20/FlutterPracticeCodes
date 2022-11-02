@@ -1,0 +1,142 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(),
+      home: const MyHomePage(title: 'Music Player'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var audio = [
+    "Maine_Royaan.mp3",
+    "Main_Rang_Sharbaton_Ka,mp3",
+    "Let_Me_Down_Slowly.mp3",
+    "Mann_Mera.mp3",
+    "Ambarsariya.mp3",
+    "Agar_Tum_Sath_Ho.mp3",
+    "Banjaara.mp3",
+    "Dua_Lipa.mp3",
+    "Jindgi.mp3",
+    "Let_Me_Down_Slowly.mp3",
+    "Main_Rang_Sharbaton_Ka.mp3",
+    "Moonlight.mp3",
+    "Pankhi_re_Pankhi_re.mp3",
+    "satisfaction.mp3",
+    "Steal_My_Girl.mp3",
+    "Tu_Jaane_Na",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        itemCount: audio.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              title: Text(audio[index]),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => secondscreen(music: audio[index]),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class secondscreen extends StatelessWidget {
+  String? music;
+
+  secondscreen({
+    this.music
+  });
+  AudioPlayer audioPlayer = AudioPlayer();
+  var path = "music/";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+
+      ),
+      body: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: Container(
+                  width: 280.0,
+                  height: 280.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30.0),
+                    image:DecorationImage(
+                      image: AssetImage("assets/image/musicplayer.gif"),
+                    ),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    await audioPlayer.play(AssetSource(path + music.toString()));
+                    print("Play");
+                  },
+                  child: Icon(Icons.play_arrow,color: Colors.amber,)),
+              ElevatedButton(
+                  onPressed: () async {
+                    await audioPlayer.pause();
+                    print("Pause");
+                  },
+                  child: Icon(Icons.pause_circle,color: Colors.amber,)),
+
+              ElevatedButton(
+                  onPressed: () async {
+                    await audioPlayer.stop();
+                    print("Stop");
+                  },
+                  child: Icon(Icons.stop_circle_sharp,color: Colors.amber,)),
+              ElevatedButton(
+                  onPressed: () async {
+                    print("Forward 5");
+                  },
+                  child: Icon(Icons.forward_5,color: Colors.amber,)),
+              ElevatedButton(
+                  onPressed: () async {
+                    print("backward 5");
+                  },
+                  child: Icon(Icons.rotate_left_outlined,color: Colors.amber,)),
+            ]),
+      ),
+    );
+  }
+}
