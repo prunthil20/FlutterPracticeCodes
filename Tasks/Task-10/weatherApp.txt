@@ -1,0 +1,104 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';   
+import 'package:http/http.dart' as http;
+
+void main()
+{
+  runApp(MaterialApp(home: MyApp(),
+    title: 'Weather App',   
+    theme: ThemeData(primarySwatch: Colors.cyan),));  
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MyScreen();
+  }
+}
+
+//shortcut for stateless is stf
+class MyScreen extends StatefulWidget {
+  const MyScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MyScreen> createState() => _MyScreenState();
+}
+
+class _MyScreenState extends State<MyScreen> {
+
+  var city = '';
+  var lat= '';
+  var long = '';
+  var temp = '';
+  var pressure = '';
+  var humidity = '';
+  var windSpeed = '';
+
+  @override
+  void initState() {
+    api();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(  
+      appBar: AppBar(   
+        iconTheme: const IconThemeData(color: Colors.white,size: 32),
+        centerTitle: true,
+        title: const Text('WEATHER',style: TextStyle(color: Colors.black,fontSize: 28,fontFamily: 'Times New Roman',fontWeight: FontWeight.bold),),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                children: [
+                  Text('City name : $city',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Temp : $temp °C',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Lat : $lat',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Long : $long',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Pressure : $pressure',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Humidity : $humidity',style: TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                  Text('Wind Speed : $windSpeed',style: const TextStyle(fontSize: 25,color: Colors.lightBlue),),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void api() async
+  {
+    if(city == '')
+    {
+      setState(() {
+        city = 'Loading Data..';
+        lat = 'Loading Data..';
+        long = 'Loading Data..';
+        temp = 'Loading Data..';
+        pressure = 'Loading Data..';
+        humidity = 'Loading Data..';
+        windSpeed = 'Loading Data..';
+      });
+    }
+    var url = Uri.parse('https://api.openweathermap.org/data/2.5/weather?lat=22.3053&lon=70.8028&appid=529558f80c47b5aaf1c556a59af33a38');
+    var response = await http.get(url);
+    setState(() {
+      city = json.decode(response.body)['name'];
+      lat = "${json.decode(response.body)["coord"]["lat"]}";
+      long = "${json.decode(response.body)["coord"]["lon"]}";
+      temp = ((json.decode(response.body)["main"]["temp"]) - 273.15).toStringAsFixed(2);
+      pressure = json.decode(response.body)["main"]['pressure'].toString();
+      humidity = json.decode(response.body)['main']['humidity'].toString();
+      windSpeed = json.decode(response.body)['wind']['speed'].toString();
+    });
+  }
+
+}
