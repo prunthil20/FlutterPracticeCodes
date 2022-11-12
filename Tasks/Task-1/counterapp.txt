@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() => runApp(new MyApp());
+
+int _AddValue = 0, _count = 0;
+
+class MyApp extends StatefulWidget {
+  _HomePage createState() => new _HomePage();
+}
+
+class _HomePage extends State<MyApp> {
+  late SharedPreferences prefs;
+
+  get prefences => null;
+  initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    prefs = await SharedPreferences.getInstance();
+    try {
+      int t = prefs.getInt("AddValue")!;
+      setState(() {
+        _AddValue = t;
+      });
+    } catch (e) {}
+    _count = _AddValue;
+    setPreviousState();
+  }
+
+  void setPreviousState() {
+    setState(() {
+      _AddValue;
+      _count;
+    });
+  }
+
+  void _increase() {
+    setState(() {
+      _AddValue++;
+      _count++;
+    });
+    prefs.setInt('AddValue', _AddValue);
+  }
+  void _Decrease() {
+    setState(() {
+      _AddValue--;
+      _count--;
+    });
+    prefs.setInt('AddValue', _AddValue);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Counter App',
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: new Text("Counter App"),
+          backgroundColor: Colors.lightBlue,
+        ),
+        body: new Center(
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              makeATextWidget("Store Values ", _AddValue),
+              new ButtonBar(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  ElevatedButton(
+                      onPressed: _increase,
+                      child: Icon(Icons.plus_one)),
+                  ElevatedButton(onPressed: _Decrease,
+                      child: Icon(Icons.exposure_minus_1))
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget makeAButton(String label, f()) {
+  return new ElevatedButton(
+    child: new Text(label,
+        style: new TextStyle(
+          fontSize: 20.0,
+        )),
+    onPressed: f,
+  );
+}
+
+Widget makeATextWidget(String txt, int value) {
+  return new Text(
+    "$txt : $value",
+    style: new TextStyle(
+      fontSize: 25.0,
+      color: Colors.amber,
+      fontWeight: FontWeight.w600,
+    ),
+  );
+}
